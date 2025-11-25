@@ -21,10 +21,12 @@ int main() {
   //     std::cout << coef << '\n';
   //   }
   // }
-  int v = 666;
-  int w = 146;
-  std::cout << std::format("Before v = {}, w = {}\n", v, w);
-  std::swap(v, w);
-  std::cout << std::format("After v = {}, w = {}\n", v, w);
+
+  // int v = 666;
+  // int w = 146;
+  // std::cout << std::format("Before v = {}, w = {}\n", v, w);
+  // std::swap(v, w);
+  // std::cout << std::format("After v = {}, w = {}\n", v, w);
+
   return 0;
 }
