@@ -3,7 +3,7 @@
 #include "biquad_filter.hpp"
 
 int main() {
-  BiquadFilter::BiquadraticCascades<double, 2> sos;
+  BiquadFilter::BiquadCascades<double, 2> sos;
   sos.set_coefficients(
     // std::array<std::array<double, 6>, 2> 
     // {

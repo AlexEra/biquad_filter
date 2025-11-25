@@ -20,11 +20,11 @@ concept filter_type = requires (T value) {
 };
 
 template<filter_type T, size_t SectionsCount>
-class BiquadraticCascades final {
+class BiquadCascades final {
 public:
-  BiquadraticCascades(void) { };
-  BiquadraticCascades(BiquadraticCascades&) = delete;
-  BiquadraticCascades& operator=(const BiquadraticCascades&) = delete;
+  BiquadCascades(void) { };
+  BiquadCascades(BiquadCascades&) = delete;
+  BiquadCascades& operator=(const BiquadCascades&) = delete;
 
   Status set_coefficients(std::array< std::array<T, 6>, SectionsCount> &&array) {
     sos = array;
