@@ -22,10 +22,6 @@ concept filter_type = requires (T value) {
 template<filter_type T, size_t SectionsCount>
 class BiquadCascades final {
 public:
-  BiquadCascades(void) { };
-  BiquadCascades(BiquadCascades&) = delete;
-  BiquadCascades& operator=(const BiquadCascades&) = delete;
-
   Status set_coefficients(std::array< std::array<T, 6>, SectionsCount> &&array) {
     sos = array;
     return Status::OK;
@@ -66,7 +62,7 @@ private:
   T section_result{0};
   T prev_section_result{0};
   std::array<std::array<T, 6>, SectionsCount> sos{0}; // second order sections
-  std::array<T, 4 + (SectionsCount - 1) * 2> delayed_values; // 4 delays from first sections, than +2 for each next section
+  std::array<T, 4 + (SectionsCount - 1) * 2> delayed_values{0}; // 4 delays from first sections, than +2 for each next section
 };
 
 } /* BiquadFilter */
