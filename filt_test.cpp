@@ -13,7 +13,7 @@ int main() {
   const double f_sampling = 1.0 / dt; // Hz
   const double f_signal = 60; // Hz
   const double amp = 1.0;
-  const double max_noise_percentage = 0.1;
+  const double max_noise_percentage = 0.36;
   const double max_amp_noise = amp * max_noise_percentage;
 
   std::random_device seed;
@@ -68,7 +68,7 @@ int main() {
   // open file to save filtered data
   std::ofstream file("data.txt", std::ofstream::binary);
   // save header
-  file << 'n' << '\t' << "s_0" << '\t' << "s_1" << "\r\n";
+  file << '#' << '\t' << 'n' << '\t' << "s_0" << '\t' << "s_1" << "\r\n";
 
   /* filtering */
   for (auto i{0}; i < data.size(); i++) {
@@ -79,7 +79,13 @@ int main() {
   file.close();
 
   /* plot */
-  /* system("plot \"data.txt\" using 1:2 with lines title \"raw\", \\
-    \"data.txt\" using 1:3 with lines title \"filtered\""); */
+  // plot two columns
+  /* system("gnuplot -e \"set grid; plot 'data.txt' using 1:2 with\
+    lines title 'raw', 'data.txt' using 1:3 with lines\
+    title 'filtered'; pause mouse close\""
+  ); */
+
+  // for one column
+  // system("gnuplot -e \"set size ratio 0.5; set grid; plot 'data.txt' using 1:2 with lines title 'raw'; pause mouse close\"");
   return 0;
 }
