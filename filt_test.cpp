@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <cmath>
 #include <numbers>
 #include <array>
@@ -32,17 +33,21 @@ int main() {
   // biq.set_coefficients();
   // biq.start();
 
+  // open file to save filtered data
+  std::ofstream file("data.txt", std::ofstream::binary);
+  // save header
+  file << 'n' << "s_0" << "s_1" << "\r\n";
+
   /* filtering */
   for (auto i{0}; i < data.size(); i++) {
     f_data[i] = biq.step(data[i]);
+    // save data to file
+    file << i << '\t' << data[i] << '\t' << f_data[i] << "\r\n";
   }
+  file.close();
 
-  // save data to file // TODO: implement
-
-  
   /* plot */
-  // TODO: implement
-  // system("echo System call\r\n"); // TODO: use this function to call GNUPlot API
-
+  /* system("plot \"data.txt\" using 1:2 with lines title \"raw\", \\
+    \"data.txt\" using 1:3 with lines title \"filtered\""); */
   return 0;
 }
