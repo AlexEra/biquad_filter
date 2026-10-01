@@ -63,7 +63,7 @@ int main() {
     // }
   }
   );
-  // biq.start();
+  biq.start();
 
   // open file to save filtered data
   std::ofstream file("data.txt", std::ofstream::binary);
