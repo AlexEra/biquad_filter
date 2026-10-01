@@ -20,6 +20,7 @@ int main() {
   std::array<double, 1000> data;
   std::array<double, 1000> f_data;
   BiquadCascades<double, 3> biq;
+  // BiquadCascades<double, 1> biq;
 
   /* setup noise generator */
   std::mt19937 generator(seed());
@@ -63,6 +64,7 @@ int main() {
     // }
   }
   );
+  // biq.set_coefficients({0.24523728,  0.24523728,  0.,          1.,         -0.50952545,  0.});
   biq.start();
 
   // open file to save filtered data
@@ -80,10 +82,10 @@ int main() {
 
   /* plot */
   // plot two columns
-  /* system("gnuplot -e \"set grid; plot 'data.txt' using 1:2 with\
+  system("gnuplot -e \"set grid; plot 'data.txt' using 1:2 with\
     lines title 'raw', 'data.txt' using 1:3 with lines\
     title 'filtered'; pause mouse close\""
-  ); */
+  );
 
   // for one column
   // system("gnuplot -e \"set size ratio 0.5; set grid; plot 'data.txt' using 1:2 with lines title 'raw'; pause mouse close\"");
