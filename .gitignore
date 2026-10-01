@@ -6,3 +6,7 @@ build/
 *.txt
 *.o
 *.a
+*.ninja
+
+CMakeFiles/
+cmake_install.cmake
