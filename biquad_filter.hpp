@@ -42,7 +42,7 @@ public:
     // update delays for 1st section
     delayed_values[1] = delayed_values[0];
     delayed_values[0] = new_value;
-    // next sections
+    // next sections // FIXME: there can be error, cause result is incorrect, when one section is good
     for (auto i{1}, j{2}; i < SectionsCount; i++, j += 2) {
       prev_section_result = section_result; // backup result
       // compute next section result
