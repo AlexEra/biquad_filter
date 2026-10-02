@@ -60,7 +60,6 @@ int main() {
     1.00000000e+00, -1.40438489e+00,  7.35915191e-01
   });
   // biq.set_coefficients({0.24523728, 0.24523728, 0., 1., -0.50952545,  0.});
-  biq.start();
 
   // open file to save filtered data
   std::ofstream file("data.txt", std::ofstream::binary);
