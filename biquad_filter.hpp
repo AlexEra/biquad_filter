@@ -27,13 +27,6 @@ public:
     return Status::OK;
   }
 
-  Status start(void) {
-    for (auto &value : delayed_values) {
-      value = 0;
-    }
-    return Status::OK;
-  }
-
   T step(T new_value) {
     // compute 1st section
     section_result = new_value * sos[0][0] + delayed_values[0] * sos[0][1]
