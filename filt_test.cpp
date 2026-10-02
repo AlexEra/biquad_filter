@@ -17,8 +17,8 @@ int main() {
   const double max_amp_noise = amp * max_noise_percentage;
 
   std::random_device seed;
-  std::array<double, 1000> data;
-  std::array<double, 1000> f_data;
+  std::array<double, 100> data;
+  std::array<double, 100> f_data;
   BiquadCascades<double, 3> biq;
   // BiquadCascades<double, 1> biq;
 
