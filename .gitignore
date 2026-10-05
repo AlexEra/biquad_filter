@@ -1,5 +1,12 @@
-.vscode
-.settings
-build
+.vscode/
+.settings/
+build/
 *.out
 *.exe
+*.txt
+*.o
+*.a
+*.ninja
+
+CMakeFiles/
+cmake_install.cmake
