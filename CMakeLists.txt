@@ -15,4 +15,5 @@ enable_language(C CXX)
 
 include_directories("./")
 
-add_executable(biquadTest "main.cpp")
+# add_executable(biquadTest "main.cpp")
+add_executable(biquadTest "filt_test.cpp")
