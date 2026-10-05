@@ -29,9 +29,9 @@ public:
 
   T step(T new_value) {
     // compute 1st section
-    section_result = new_value * sos[0][0] + delayed_values[0] * sos[0][1]
-      + delayed_values[1] * sos[0][2] + delayed_values[2] * sos[0][4]
-      + delayed_values[3] * sos[0][5];
+    section_result = new_value * sos[0][0] + delayed_values[0] * sos[0][1] +
+      delayed_values[1] * sos[0][2] - delayed_values[2] * sos[0][4] -
+      delayed_values[3] * sos[0][5];
     // update delays for 1st section
     delayed_values[1] = delayed_values[0];
     delayed_values[0] = new_value;
@@ -39,9 +39,9 @@ public:
     for (auto i{1}, j{2}; i < SectionsCount; i++, j += 2) {
       prev_section_result = section_result; // backup result
       // compute next section result
-      section_result = section_result * sos[i][0] + delayed_values[j] * sos[i][1]
-        + delayed_values[j + 1] * sos[i][2] + delayed_values[j + 2] * sos[i][4]
-        + delayed_values[j + 3] * sos[i][5];
+      section_result = section_result * sos[i][0] + delayed_values[j] * sos[i][1] +
+        delayed_values[j + 1] * sos[i][2] - delayed_values[j + 2] * sos[i][4] -
+        delayed_values[j + 3] * sos[i][5];
       // update delays
       delayed_values[j + 1] = delayed_values[j];
       delayed_values[j] = prev_section_result;
