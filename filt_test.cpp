@@ -6,6 +6,9 @@
 #include <random>
 #include "biquad_filter.hpp"
 
+// #define TEST_UNIT_CASCADES
+#define TEST_SEPARATE_CASCADES
+
 using BiquadFilter::BiquadCascades;
 
 int main() {
@@ -19,8 +22,14 @@ int main() {
   std::random_device seed;
   std::array<double, 100> data;
   std::array<double, 100> f_data;
+
+#ifdef TEST_UNIT_CASCADES
   BiquadCascades<double, 3> biq;
-  // BiquadCascades<double, 1> biq;
+#elif defined(TEST_SEPARATE_CASCADES)
+  BiquadFilter::BiquadSection<double> bs[3];
+#else
+#error "Test case isn't chosen!"
+#endif
 
   /* setup noise generator */
   std::mt19937 generator(seed());
@@ -38,16 +47,7 @@ int main() {
     }
   }
 
-  // TODO: setup filter
-  // scipy.signal.butter(3, 100, output='sos', fs=1000)
-  /*
-  array([[ 3.40537653e-04,  6.81075305e-04,  3.40537653e-04,
-         1.00000000e+00, -1.03206941e+00,  2.75707942e-01],
-       [ 1.00000000e+00,  2.00000000e+00,  1.00000000e+00,
-         1.00000000e+00, -1.14298050e+00,  4.12801598e-01],
-       [ 1.00000000e+00,  2.00000000e+00,  1.00000000e+00,
-         1.00000000e+00, -1.40438489e+00,  7.35915191e-01]])
-  */
+#ifdef TEST_UNIT_CASCADE
   biq.set_coefficients({
     /* sos 1 */
     3.40537653e-04,  6.81075305e-04,  3.40537653e-04,
@@ -59,7 +59,20 @@ int main() {
     1.00000000e+00,  2.00000000e+00,  1.00000000e+00,
     1.00000000e+00, -1.40438489e+00,  7.35915191e-01
   });
-  // biq.set_coefficients({0.24523728, 0.24523728, 0., 1., -0.50952545,  0.});
+#elif defined(TEST_SEPARATE_CASCADES)
+  bs[0].set_coefficients({
+    3.40537653e-04,  6.81075305e-04,  3.40537653e-04,
+    1.00000000e+00, -1.03206941e+00,  2.75707942e-01
+  });
+  bs[1].set_coefficients({
+    1.00000000e+00,  2.00000000e+00,  1.00000000e+00,
+    1.00000000e+00, -1.14298050e+00,  4.12801598e-01
+  });
+  bs[2].set_coefficients({
+    1.00000000e+00,  2.00000000e+00,  1.00000000e+00,
+    1.00000000e+00, -1.40438489e+00,  7.35915191e-01
+  });
+#endif
 
   // open file to save filtered data
   std::ofstream file("data.txt", std::ofstream::binary);
@@ -68,7 +81,13 @@ int main() {
 
   /* filtering */
   for (auto i{0}; i < data.size(); i++) {
+#ifdef TEST_UNIT_CASCADE
     f_data[i] = biq.step(data[i]);
+#elif defined(TEST_SEPARATE_CASCADES)
+    f_data[i] = bs[0].step(data[i]);
+    f_data[i] = bs[1].step(f_data[i]);
+    f_data[i] = bs[2].step(f_data[i]);
+#endif
     // save data to file
     file << i << '\t' << data[i] << '\t' << f_data[i] << "\r\n";
   }
