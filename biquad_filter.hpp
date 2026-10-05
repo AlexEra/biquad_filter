@@ -58,4 +58,28 @@ private:
   std::array<T, 4 + (SectionsCount - 1) * 2> delayed_values{0}; // 4 delays from first sections, than +2 for each next section
 };
 
+template<filter_type T>
+class BiquadSection final {
+public:
+  Status set_coefficients(std::array<T, 6> &&array) {
+    sos = array;
+    return Status::OK;
+  }
+
+  T step(T new_value) {
+    T section_result = new_value * sos[0] + delayed_values[0] * sos[1] +
+     delayed_values[1] * sos[2] + delayed_values[2] * sos[4] + delayed_values[3] * sos[5];
+    // update delays
+    delayed_values[4] = delayed_values[3];
+    delayed_values[3] = section_result;
+    delayed_values[2] = delayed_values[1];
+    delayed_values[1] = delayed_values[0];
+    delayed_values[0] = new_value;
+    return section_result;
+  }
+private:
+  std::array<T, 6> sos{0,};
+  std::array<T, 4> delayed_values{0,};
+};
+
 } /* BiquadFilter */
