@@ -47,7 +47,7 @@ int main() {
     }
   }
 
-#ifdef TEST_UNIT_CASCADE
+#ifdef TEST_UNIT_CASCADES
   biq.set_coefficients({
     /* sos 1 */
     3.40537653e-04,  6.81075305e-04,  3.40537653e-04,
@@ -81,7 +81,7 @@ int main() {
 
   /* filtering */
   for (auto i{0}; i < data.size(); i++) {
-#ifdef TEST_UNIT_CASCADE
+#ifdef TEST_UNIT_CASCADES
     f_data[i] = biq.step(data[i]);
 #elif defined(TEST_SEPARATE_CASCADES)
     f_data[i] = bs[0].step(data[i]);
