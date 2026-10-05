@@ -78,16 +78,18 @@ template<filter_type T>
 class BiquadSection final {
 public:
   Status set_coefficients(std::array<T, 6> &&array) {
-    /* TODO: save coefficients, that will be used, i.e. save all except array[i][3]
-    It helps with memory consumption decreasing
-    */
-    sos = array;
+    for (size_t i{0}; i < 6; i++) {
+      if (i == 3) { // value with this index isn't used in computations
+        continue;
+      }
+      sos[(i > 3) ? i - 1 : i] = array[i];
+    }
     return Status::OK;
   }
 
   T step(T new_value) {
     T section_result = new_value * sos[0] + delayed_values[0] * sos[1] +
-     delayed_values[1] * sos[2] - delayed_values[2] * sos[4] - delayed_values[3] * sos[5];
+     delayed_values[1] * sos[2] - delayed_values[2] * sos[3] - delayed_values[3] * sos[4];
     // update delays
     delayed_values[3] = delayed_values[2];
     delayed_values[2] = section_result;
@@ -96,7 +98,7 @@ public:
     return section_result;
   }
 private:
-  std::array<T, 6> sos{0,};
+  std::array<T, 5> sos{0,};
   std::array<T, 4> delayed_values{0,};
 };
 
