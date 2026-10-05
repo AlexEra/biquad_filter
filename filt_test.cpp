@@ -6,8 +6,8 @@
 #include <random>
 #include "biquad_filter.hpp"
 
-// #define TEST_UNIT_CASCADES
-#define TEST_SEPARATE_CASCADES
+#define TEST_UNIT_CASCADES
+// #define TEST_SEPARATE_CASCADES
 
 using BiquadFilter::BiquadCascades;
 
