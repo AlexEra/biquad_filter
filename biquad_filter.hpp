@@ -19,10 +19,18 @@ concept filter_type = requires (T value) {
   value / value;
 };
 
+/**
+ * @brief 
+ * @tparam T              Type of values to filter
+ * @tparam SectionsCount  Amount of biquad sections
+ */
 template<filter_type T, size_t SectionsCount>
 class BiquadCascades final {
 public:
   Status set_coefficients(std::array< std::array<T, 6>, SectionsCount> &&array) {
+    /* TODO: save coefficients, that will be used, i.e. save all except array[i][3]
+    It helps with memory consumption decreasing
+    */
     sos = array;
     return Status::OK;
   }
@@ -35,7 +43,7 @@ public:
     // update delays for 1st section
     delayed_values[1] = delayed_values[0];
     delayed_values[0] = new_value;
-    // next sections // FIXME: there can be error, cause result is incorrect, when one section is good
+    // next sections
     for (auto i{1}, j{2}; i < SectionsCount; i++, j += 2) {
       prev_section_result = section_result; // backup result
       // compute next section result
@@ -58,10 +66,17 @@ private:
   std::array<T, 4 + (SectionsCount - 1) * 2> delayed_values{0}; // 4 delays from first sections, than +2 for each next section
 };
 
+/**
+ * @brief 
+ * @tparam T Type of values to filter  
+ */
 template<filter_type T>
 class BiquadSection final {
 public:
   Status set_coefficients(std::array<T, 6> &&array) {
+    /* TODO: save coefficients, that will be used, i.e. save all except array[i][3]
+    It helps with memory consumption decreasing
+    */
     sos = array;
     return Status::OK;
   }
